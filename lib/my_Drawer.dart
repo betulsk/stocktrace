@@ -275,7 +275,7 @@ class _MyDrawerState extends State<MyDrawer> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Homessdasdasd',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
