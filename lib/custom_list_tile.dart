@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/*Bu alan henüz kullanılmadı. Üürünler kısmındaki tekrarlanan
+* alanlar için tasarlandı. urunlerim.dart tan çağırılıp parametre verilecektir. */
 class CustomListTile extends StatelessWidget {
   final String names;
   final IconData icon;
