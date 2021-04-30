@@ -2,11 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stok/main.dart';
 
 import 'Depo_Button.dart';
-import 'custom_list_tile.dart';
+import 'about_us.dart';
 import 'myContainer.dart';
+import 'urunlerim.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -14,6 +17,8 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  int currentIndex;
+
   String butonClick;
   @override
   Widget build(BuildContext context) {
@@ -68,14 +73,57 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
               ),
             ),
-            CustomListTile(icon: Icons.account_circle, names: 'Kullanıcı'),
-            CustomListTile(
-              icon: Icons.dns,
-              names: 'Ürünlerim',
+            ListTile(
+              leading: Icon(
+                Icons.account_circle,
+                color: Colors.redAccent,
+              ),
+              title: Text(
+                'Kullanıcı',
+                style: GoogleFonts.lato(fontSize: 18.0),
+              ),
+              onTap: () {},
             ),
-            CustomListTile(
-                icon: Icons.local_grocery_store, names: 'Satıs Bilgileri'),
-            CustomListTile(icon: Icons.settings, names: 'Ayarlar'),
+            ListTile(
+              leading: Icon(
+                Icons.dns,
+                color: Colors.redAccent,
+              ),
+              title: Text(
+                'Ürünlerim',
+                style: GoogleFonts.lato(fontSize: 18.0),
+              ),
+
+              // icon: Icons.dns,
+              // names: 'Ürünlerim',
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Urunler()));
+                //Navigator.of(context).pushNamed('Urunler');
+              },
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(
+                Icons.local_grocery_store,
+                color: Colors.redAccent,
+              ),
+              title: Text(
+                'Satıs Bilgileri',
+                style: GoogleFonts.lato(fontSize: 18.0),
+              ),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(
+                Icons.settings,
+                color: Colors.redAccent,
+              ),
+              title: Text(
+                'Ayarlar',
+                style: GoogleFonts.lato(fontSize: 18.0),
+              ),
+            ),
           ],
         ),
       ),
@@ -275,20 +323,36 @@ class _MyDrawerState extends State<MyDrawer> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Homessdasdasd',
+            label: 'Ana Sayfa',
             backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: '',
-            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Hakkımızda',
             backgroundColor: Colors.pink,
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.input),
+            label: 'Çıkış',
+            backgroundColor: Colors.pink,
+          ),
         ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyDrawer()));
+              break;
+            case 1:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Hakkinda()));
+              break;
+            case 2:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyApp()));
+              break;
+          }
+        },
       ),
     );
   }
