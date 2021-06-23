@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stok/bloc/veri_ekle_bloc.dart';
+import 'package:stok/flutter_auth.dart';
 
 import 'my_Drawer.dart';
 
-//import 'my_Drawer.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(BlocProvider(
     create: (context) {
       return VeriEkleBloc();
@@ -111,6 +114,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, right: 8.0, left: 8.0),
+                      child: RaisedButton(
+                        color: Colors.redAccent,
+                        onPressed: _git,
+                        child: Text(
+                          'Giriş',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -121,21 +136,31 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      print(_email);
-      print(_password);
+      await register(_email, _password);
     }
   }
 
-  void _controll() {
+  Future<void> _controll() async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      print(_email);
-      print(_password);
+      // _email = "barry.allen@example.com";
+      // _password = "SuperSecretPassword!";
+
+      await signIn(_email, _password);
+
+      User user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MyDrawer()));
     }
+  }
+
+  void _git() async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyDrawer()));
   }
 }

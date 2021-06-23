@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,11 +18,19 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  int currentIndex;
+  void initialize() {
+    User user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Navigator.of(context).popUntil(ModalRoute.withName('/'));
+    }
+  }
 
+  int currentIndex;
   String butonClick;
+
   @override
   Widget build(BuildContext context) {
+    initialize();
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
@@ -337,7 +346,7 @@ class _MyDrawerState extends State<MyDrawer> {
             backgroundColor: Colors.pink,
           ),
         ],
-        onTap: (index) {
+        onTap: (index) async {
           switch (index) {
             case 0:
               Navigator.push(
@@ -348,6 +357,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   context, MaterialPageRoute(builder: (context) => Hakkinda()));
               break;
             case 2:
+              await FirebaseAuth.instance.signOut();
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => MyApp()));
               break;
