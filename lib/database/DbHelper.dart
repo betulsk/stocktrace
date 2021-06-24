@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:stok/models/product.dart';
-import 'package:stok/urun_ozellik.dart';
 
 class DbHelper {
   static Database _db;
@@ -22,7 +21,7 @@ class DbHelper {
 
   FutureOr<void> _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE Product(id INTEGER PRIMARY KEY, name TEXT, categoryId INTEGER,stockQuantity INTEGER, avatar TEXT, status INTEGER)");
+        "CREATE TABLE Product(id INTEGER PRIMARY KEY, name TEXT, categoryId INTEGER , stockQuantity INTEGER, price INTEGER, image TEXT, status INTEGER)");
     await db.execute(
         "CREATE TABLE Category(id INTEGER PRIMARY KEY, name TEXT, status INTEGER)");
   }
@@ -33,16 +32,16 @@ class DbHelper {
     return result.map((data) => Product.fromMap(data)).toList();
   }
 
-  Future<int> insertContact(UrunOzellikleri contact) async {
+  Future<int> insertContact(Product product) async {
     var dbClient = await db;
-    return await dbClient.insert("Contact", contact.toMap());
+    return await dbClient.insert("Product", product.toMap());
   }
 
   //
-  Future<int> updateContact(UrunOzellikleri contact) async {
+  Future<int> updateContact(Product product) async {
     var dbClient = await db;
-    return await dbClient.update("Contact", contact.toMap(),
-        where: "id=?", whereArgs: [contact.id]);
+    return await dbClient.update("Product", product.toMap(),
+        where: "id=?", whereArgs: [product.id]);
   }
   //
   // Future<void> removeContact(int id) async {

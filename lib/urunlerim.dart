@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stok/models/product.dart';
+import 'package:stok/yeni_urun.dart';
 
 import 'database/DbHelper.dart';
 
@@ -11,6 +14,7 @@ class Urunler extends StatefulWidget {
 
 class _UrunlerState extends State<Urunler> {
   DbHelper _dbHelper;
+  File image;
 
   @override
   void initState() {
@@ -38,16 +42,20 @@ class _UrunlerState extends State<Urunler> {
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                Product contact = snapshot.data[index];
+                Product product = snapshot.data[index];
                 return GestureDetector(
                   onTap: () {
+                    Route route = MaterialPageRoute(
+                        builder: (context) => AddProduct(
+                              product: product,
+                            ));
+                    Navigator.pushReplacement(context, route);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         // AddContactPage(
-                    //         //   contact: contact,
-                    //         // ),
+                    //     builder: (context) => AddProduct(
+                    //       product: product,
+                    //     ),
                     //   ),
                     // );
                   },
@@ -71,7 +79,7 @@ class _UrunlerState extends State<Urunler> {
                       setState(() {});
 
                       Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text("${contact.name} has been deleted"),
+                        content: Text("${product.name} silindi"),
                         action: SnackBarAction(
                           label: "UNDO",
                           onPressed: () async {
@@ -84,21 +92,21 @@ class _UrunlerState extends State<Urunler> {
                     },
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: AssetImage(
-                          contact.image == null
-                              ? "assets/img/person.jpg"
-                              : contact.image,
-                        ),
-                        child: Text(
-                          contact.name[0].toUpperCase(),
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
+                        backgroundColor: Colors.transparent,
+                        child: Image.file(
+                            File(product.image ?? "images/imageselect.png")),
+                        //     Text(
+                        //   product.name[0].toUpperCase(),
+                        //   style: TextStyle(
+                        //       fontSize: 24, fontWeight: FontWeight.bold),
+                        // ),
                       ),
-                      title: Text(contact.name),
-                      subtitle: Text(contact.name),
+                      title: Text(product.name),
+                      subtitle: Text(product.price == null
+                          ? "-"
+                          : product.price.toString()),
                       trailing: IconButton(
-                        icon: Icon(Icons.phone),
+                        icon: Icon(Icons.info),
                         //   onPressed: () async =>
                         //     //  _callContact(contact.phoneNumber),
                         // ),

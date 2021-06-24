@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stok/models/product.dart';
+import 'package:stok/urunlerim.dart';
 
 import 'database/DbHelper.dart';
 
@@ -45,11 +49,26 @@ class YeniUrun extends StatefulWidget {
 class _YeniUrunState extends State<YeniUrun> {
   final _formKey = GlobalKey<FormState>();
   DbHelper _dbHelper;
+  File myimage;
 
   @override
   void initState() {
     _dbHelper = DbHelper();
     super.initState();
+  }
+
+  void getFile() async {
+    Product product = UrunForm.of(context).product;
+
+    File imageFile = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
+
+    myimage = imageFile;
+
+    product.image = imageFile.path;
+
+    setState(() {});
   }
 
   @override
@@ -58,19 +77,24 @@ class _YeniUrunState extends State<YeniUrun> {
     return Column(
       children: <Widget>[
         Stack(children: [
-          Image.asset(
-            product.image == null ? "assets/img/person.jpg" : product.image,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 250,
-          ),
+          myimage == null
+              ? Image.asset('images/imageselect.png',
+                  width: MediaQuery.of(context).size.width,
+                  height: 250,
+                  fit: BoxFit.cover)
+              : Image.file(
+                  myimage,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: 250,
+                ),
           Positioned(
               bottom: 8,
               right: 8,
               child: IconButton(
                 onPressed: getFile,
                 icon: Icon(Icons.camera_alt),
-                color: Colors.white,
+                color: Colors.black,
               ))
         ]),
         Padding(
@@ -87,7 +111,7 @@ class _YeniUrunState extends State<YeniUrun> {
                     initialValue: product.name,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Name required";
+                        return "Ürün adı giriniz.";
                       }
                     },
                     onSaved: (value) {
@@ -100,10 +124,13 @@ class _YeniUrunState extends State<YeniUrun> {
                   child: TextFormField(
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(hintText: "Stok adedi"),
-                    initialValue: product.stockQuantity ?? "",
+                    initialValue: (product.stockQuantity == 0 ||
+                            product.stockQuantity == null)
+                        ? ""
+                        : product.stockQuantity.toString(),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Phone Number required";
+                        return "Stok adedi giriniz.";
                       }
                     },
                     onSaved: (value) {
@@ -111,27 +138,51 @@ class _YeniUrunState extends State<YeniUrun> {
                     },
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(hintText: "Fiyat"),
+                    initialValue: (product.price == 0 || product.price == null)
+                        ? ""
+                        : product.price.toString(),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Fiyat giriniz.";
+                      }
+                    },
+                    onSaved: (value) {
+                      product.price = int.parse(value);
+                    },
+                  ),
+                ),
                 RaisedButton(
                   color: Colors.blue,
                   textColor: Colors.white,
-                  child: Text("Submit"),
+                  child: Text("Kaydet"),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-
-                      // if (product.id == null) {
-                      //   //await _dbHelper.insertContact(product);
-                      // } else {
-                      //   // await _dbHelper.updateContact(product);
-                      // }
-
+                      String message = "";
+                      if (product.id == null) {
+                        await _dbHelper.insertContact(product);
+                        message = "kayıt edildi.";
+                      } else {
+                        await _dbHelper.updateContact(product);
+                        message = "güncellendi.";
+                      }
                       var snackBar = Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text("${product.name} has been saved")),
+                        SnackBar(content: Text("${product.name} ${message}")),
                       );
 
                       snackBar.closed.then((onValue) {
                         Navigator.pop(context);
+                      });
+
+                      Timer(Duration(seconds: 1), () {
+                        Route route =
+                            MaterialPageRoute(builder: (context) => Urunler());
+                        Navigator.pushReplacement(context, route);
                       });
                     }
                   },
@@ -142,16 +193,5 @@ class _YeniUrunState extends State<YeniUrun> {
         ),
       ],
     );
-  }
-
-  void getFile() async {
-    Product product = UrunForm.of(context).product;
-
-    var image =
-        await ImagePicker.platform.pickImage(source: ImageSource.camera);
-
-    setState(() {
-      product.image = image.path;
-    });
   }
 }
