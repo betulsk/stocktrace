@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stok/bloc/veri_ekle_bloc.dart';
 import 'package:stok/flutter_auth.dart';
 
+import 'kayit.dart';
 import 'my_Drawer.dart';
 
 void main() async {
@@ -71,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   backgroundImage: AssetImage("images/unknown.jpg"),
                 ),
                 TextFormField(
+                  initialValue: "betul@mail.com",
                   decoration: InputDecoration(
                       labelText: 'Email:', icon: Icon(Icons.account_circle)),
                   validator: (input) =>
@@ -78,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSaved: (input) => _email = input,
                 ),
                 TextFormField(
+                  initialValue: "12345678",
                   decoration: InputDecoration(
                       labelText: 'Password:', icon: Icon(Icons.vpn_key)),
                   validator: (input) => input.length < 8
@@ -95,18 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           top: 8.0, right: 8.0, left: 8.0),
                       child: RaisedButton(
                         color: Colors.redAccent,
-                        onPressed: _submit,
-                        child: Text(
-                          'Kayıt Ol',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, right: 8.0, left: 8.0),
-                      child: RaisedButton(
-                        color: Colors.redAccent,
                         onPressed: _controll,
                         child: Text(
                           'Giriş',
@@ -114,14 +105,37 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            "Hesabın yoksa KAYIT OL' a tıkla",
+                            style: TextStyle(
+                              color: Colors.lightBlue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, right: 8.0, left: 8.0),
                       child: RaisedButton(
                         color: Colors.redAccent,
-                        onPressed: _git,
+                        onPressed: () {
+                          //_submit
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => KayitEkrani()));
+                          });
+                        },
                         child: Text(
-                          'Giriş',
+                          'Kayıt Ol',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
