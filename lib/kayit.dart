@@ -10,7 +10,8 @@ class KayitEkrani extends StatefulWidget {
 
 class _KayitEkraniState extends State<KayitEkrani> {
   final formKey = GlobalKey<FormState>();
-  String _email, _password, isim, soyisim;
+  String _email, _password, isim_soyisim;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,18 +35,26 @@ class _KayitEkraniState extends State<KayitEkrani> {
                   decoration: InputDecoration(
                       labelText: 'İsim-Soyisim:',
                       icon: Icon(Icons.account_circle)),
+                  onSaved: (input) => isim_soyisim = input,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'E-mail adresinizi giriniz:',
-                    icon: Icon(Icons.email),
-                  ),
+                      labelText: 'E-mail adresinizi giriniz:',
+                      icon: Icon(Icons.email)),
+                  validator: (input) =>
+                      !input.contains('@') ? 'Not a valid Email' : null,
+                  onSaved: (input) => _email = input,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'En az 8 karakterli parolanızı yazın:',
                     icon: Icon(Icons.vpn_key),
                   ),
+                  validator: (input) => input.length < 8
+                      ? 'En az 8 karakterli parolanızı yazın'
+                      : null,
+                  onSaved: (input) => _password = input,
+                  obscureText: true,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -74,8 +83,10 @@ class _KayitEkraniState extends State<KayitEkrani> {
   }
 
   Future<void> _submit() async {
+    print("olta geldi ------------------------");
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+      print("olta geldi 2------------------------");
       await register(_email, _password);
     }
   }

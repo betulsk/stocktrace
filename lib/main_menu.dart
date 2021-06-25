@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stok/yeni_urun.dart';
 
 import 'Depolar.dart';
+import 'RemoteDoviz.dart';
 import 'models/product.dart';
 import 'myContainer.dart';
 import 'my_contact_page.dart';
@@ -202,24 +203,21 @@ class _MainMenuState extends State<MainMenu> {
                 myColor: Colors.white,
                 onPress: () {
                   setState(() {
-                    print('butona basıldı');
+                    print('Kurlara basıldı');
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => RemoteDoviz()));
                   });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Image.asset('images/settings.jpg'),
-                    )),
-                    SizedBox(height: 5.0),
+                    Expanded(child: Image.asset('images/kurlar2.png')),
                     Text(
-                      'Ayarlar',
+                      'Kurlar',
                       style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    )
+                          fontSize: 12.0, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
