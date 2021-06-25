@@ -17,8 +17,9 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  User user;
   void initialize() {
-    User user = FirebaseAuth.instance.currentUser;
+    user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       Navigator.of(context).popUntil(ModalRoute.withName('/'));
     }
@@ -65,7 +66,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     ),
                     Expanded(
                       child: Text(
-                        'Kullanıcı',
+                        user.email,
                         style:
                             GoogleFonts.lato(fontSize: 18, color: Colors.white),
                       ),
