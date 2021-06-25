@@ -165,10 +165,10 @@ class _YeniUrunState extends State<YeniUrun> {
                       _formKey.currentState.save();
                       String message = "";
                       if (product.id == null) {
-                        await _dbHelper.insertContact(product);
+                        await _dbHelper.insertProduct(product);
                         message = "kayıt edildi.";
                       } else {
-                        await _dbHelper.updateContact(product);
+                        await _dbHelper.updateProduct(product);
                         message = "güncellendi.";
                       }
                       var snackBar = Scaffold.of(context).showSnackBar(

@@ -4,6 +4,7 @@ import 'package:stok/yeni_urun.dart';
 import 'Depolar.dart';
 import 'models/product.dart';
 import 'myContainer.dart';
+import 'my_contact_page.dart';
 
 class MainMenu extends StatefulWidget {
   @override
@@ -140,6 +141,16 @@ class _MainMenuState extends State<MainMenu> {
                 children: [
                   Expanded(
                     child: MyContainer(
+                      onPress: () {
+                        butonClick = 'Depolar';
+                        setState(() {
+                          print('depolara basıldı');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ContactPage()));
+                        });
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
