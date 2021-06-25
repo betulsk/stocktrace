@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stok/models/product.dart';
 import 'package:stok/urunlerim.dart';
@@ -17,7 +18,12 @@ class AddProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.id == null ? "Yeni Ürün Ekle" : product.name),
+        title: Text(
+          product.id == null ? "Yeni Ürün Ekle" : product.name,
+          style: GoogleFonts.lato(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
       ),
       body: SingleChildScrollView(
           child: UrunForm(product: product, child: YeniUrun())),
@@ -156,36 +162,42 @@ class _YeniUrunState extends State<YeniUrun> {
                     },
                   ),
                 ),
-                RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Text("Kaydet"),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      String message = "";
-                      if (product.id == null) {
-                        await _dbHelper.insertProduct(product);
-                        message = "kayıt edildi.";
-                      } else {
-                        await _dbHelper.updateProduct(product);
-                        message = "güncellendi.";
-                      }
-                      var snackBar = Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text("${product.name} ${message}")),
-                      );
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      child: Text("Kaydet"),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          String message = "";
+                          if (product.id == null) {
+                            await _dbHelper.insertProduct(product);
+                            message = "kayıt edildi.";
+                          } else {
+                            await _dbHelper.updateProduct(product);
+                            message = "güncellendi.";
+                          }
+                          var snackBar = Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text("${product.name} ${message}")),
+                          );
 
-                      snackBar.closed.then((onValue) {
-                        Navigator.pop(context);
-                      });
+                          snackBar.closed.then((onValue) {
+                            Navigator.pop(context);
+                          });
 
-                      Timer(Duration(seconds: 1), () {
-                        Route route =
-                            MaterialPageRoute(builder: (context) => Urunler());
-                        Navigator.pushReplacement(context, route);
-                      });
-                    }
-                  },
+                          Timer(Duration(seconds: 1), () {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => Urunler());
+                            Navigator.pushReplacement(context, route);
+                          });
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

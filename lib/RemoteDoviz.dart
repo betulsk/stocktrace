@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:stok/models/doviz.dart';
 
@@ -35,7 +36,12 @@ class _RemoteDovizState extends State<RemoteDoviz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Canlı Döviz Kuru"),
+        title: Text(
+          "CANLI DÖVIZ KURU",
+          style: GoogleFonts.lato(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
       ),
       body: FutureBuilder(
           future: veri,

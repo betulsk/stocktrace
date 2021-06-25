@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stok/splash_screen.dart';
 import 'package:stok/yeni_urun.dart';
@@ -26,64 +27,88 @@ class _MainMenuState extends State<MainMenu> {
               child: Row(
                 children: [
                   Expanded(
-                    child: MyContainer(
-                      onPress: () {
-                        butonClick = 'Depolar';
-                        setState(() {
-                          print('depolara basıldı');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Depolar()));
-                        });
+                    child: GestureDetector(
+                      onLongPress: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Depolar"),
+                                content: Text(
+                                    "Bu alana yeni depolar ekleyebilirsiniz."),
+                              );
+                            });
                       },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              'images/depo1.png',
+                      child: MyContainer(
+                        onPress: () {
+                          butonClick = 'Depolar';
+                          setState(() {
+                            print('depolara basıldı');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Depolar()));
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                'images/depo1.png',
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 5.0),
-                          Text(
-                            'Depolar',
-                            style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                            SizedBox(height: 5.0),
+                            Text(
+                              'Depolar',
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: MyContainer(
-                      onPress: () {
-                        butonClick = 'Depolar';
-                        setState(() {
-                          print('depolara basıldı');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddProduct(product: Product())));
-                        });
+                    child: GestureDetector(
+                      onLongPress: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Yeni Ürün"),
+                                content: Text(
+                                    "Bu alanda depolarınıza gelecek olan ürünlerin stoğunu güncelleyip, yeni ürünler ekleyebilirsiniz."),
+                              );
+                            });
                       },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              'images/yeni_urun.png',
+                      child: MyContainer(
+                        onPress: () {
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddProduct(product: Product())));
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                'images/yeni_urun.png',
+                              ),
                             ),
-                          ),
-                          Text(
-                            'Yeni Ürün',
-                            style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                            Text(
+                              'Yeni Ürün',
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -143,7 +168,6 @@ class _MainMenuState extends State<MainMenu> {
                   Expanded(
                     child: MyContainer(
                       onPress: () {
-                        butonClick = 'Depolar';
                         setState(() {
                           Navigator.push(
                               context,
@@ -172,30 +196,32 @@ class _MainMenuState extends State<MainMenu> {
                     ),
                   ),
                   Expanded(
-                    child: MyContainer(
-                      // onPress: () {
-                      //   setState(() {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => SplashScreen()));
-                      //   });
-                      // },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              'images/gelir_gider.png',
+                    child: GestureDetector(
+                      child: MyContainer(
+                        // onPress: () {
+                        //   setState(() {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => SplashScreen()));
+                        //   });
+                        // },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                'images/gelir_gider.png',
+                              ),
                             ),
-                          ),
-                          Text(
-                            'Gelirler & Giderler',
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.bold),
-                          )
-                        ],
+                            Text(
+                              'Gelirler & Giderler',
+                              style: TextStyle(
+                                  fontSize: 17.0, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
