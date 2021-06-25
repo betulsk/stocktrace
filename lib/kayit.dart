@@ -83,10 +83,9 @@ class _KayitEkraniState extends State<KayitEkrani> {
   }
 
   Future<void> _submit() async {
-    print("olta geldi ------------------------");
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      print("olta geldi 2------------------------");
+
       await register(_email, _password);
     }
   }

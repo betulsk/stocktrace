@@ -32,6 +32,7 @@ class _RemoteDovizState extends State<RemoteDoviz> {
     veri = dovizleriGetir();
   }
 
+  bool selected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,16 +60,30 @@ class _RemoteDovizState extends State<RemoteDoviz> {
                   itemBuilder: (context, index) {
                     return Card(
                       elevation: 6,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "1 USD = " +
-                                gelenDoviz.data.conversionRate.toString() +
-                                " TRY",
-                            style: TextStyle(fontSize: 20),
+                      child: GestureDetector(
+                        onDoubleTap: () {
+                          print("iki kere tıklandı");
+                          setState(() {
+                            selected = !selected;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          color: selected
+                              ? Colors.orangeAccent
+                              : Colors.lightGreenAccent,
+                          duration: const Duration(seconds: 2),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                "1 USD = " +
+                                    gelenDoviz.data.conversionRate.toString() +
+                                    " TRY",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     );
                   });
