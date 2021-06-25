@@ -38,7 +38,7 @@ class _UrunlerState extends State<Urunler> {
         builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
           if (snapshot.data.isEmpty)
-            return Text("Listelenecek ürün bulunamadı.");
+            return Center(child: Text("Listelenecek ürün bulunamadı."));
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:stok/splash_screen.dart';
 import 'package:stok/yeni_urun.dart';
 
 import 'Depolar.dart';
 import 'RemoteDoviz.dart';
 import 'models/product.dart';
 import 'myContainer.dart';
-import 'my_contact_page.dart';
 
 class MainMenu extends StatefulWidget {
   @override
@@ -145,11 +145,10 @@ class _MainMenuState extends State<MainMenu> {
                       onPress: () {
                         butonClick = 'Depolar';
                         setState(() {
-                          print('depolara basıldı');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ContactPage()));
+                                  builder: (context) => SplashScreen()));
                         });
                       },
                       child: Column(
@@ -174,9 +173,14 @@ class _MainMenuState extends State<MainMenu> {
                   ),
                   Expanded(
                     child: MyContainer(
-                      onPress: () {
-                        setState(() {});
-                      },
+                      // onPress: () {
+                      //   setState(() {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => SplashScreen()));
+                      //   });
+                      // },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stok/my_contact_page.dart';
 
@@ -16,8 +17,12 @@ class AddContactPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(contact.id == null ? "Yeni Kişi Oluştur" : contact.fullName),
+        backgroundColor: Colors.redAccent,
+        centerTitle: true,
+        title: Text(
+          contact.id == null ? "Yeni Kisi Olustur" : contact.fullName,
+          style: GoogleFonts.lato(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
           child: ContactForm(contact: contact, child: AddContactForm())),
@@ -100,36 +105,41 @@ class _AddContactFormState extends State<AddContactForm> {
                     },
                   ),
                 ),
-                RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Text("Kaydet"),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      if (contact.id == null) {
-                        await _dbHelperTwo.insertContact(contact);
-                      } else {
-                        await _dbHelperTwo.updateContact(contact);
-                      }
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      child: Text("Kaydet"),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          if (contact.id == null) {
+                            await _dbHelperTwo.insertContact(contact);
+                          } else {
+                            await _dbHelperTwo.updateContact(contact);
+                          }
 
-                      var snackBar = Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text("${contact.fullName} işlem başarılı.")),
-                      );
+                          var snackBar = Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "${contact.fullName} işlem başarılı.")),
+                          );
 
-                      snackBar.closed.then((onValue) {
-                        Navigator.pop(context);
-                      });
+                          snackBar.closed.then((onValue) {
+                            Navigator.pop(context);
+                          });
 
-                      Timer(Duration(seconds: 1), () {
-                        Route route = MaterialPageRoute(
-                            builder: (context) => ContactPage());
-                        Navigator.pushReplacement(context, route);
-                      });
-                    }
-                  },
+                          Timer(Duration(seconds: 1), () {
+                            Route route = MaterialPageRoute(
+                                builder: (context) => ContactPage());
+                            Navigator.pushReplacement(context, route);
+                          });
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

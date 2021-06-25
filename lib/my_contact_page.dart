@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'add_contact_page.dart';
 import 'database/DbHelper.dart';
@@ -22,9 +23,15 @@ class _ContactPageState extends State<ContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Kişiler"),
+        title: Text(
+          'KISILER',
+          style: GoogleFonts.lato(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.redAccent,
         onPressed: () async {
           await Navigator.push(
             context,
@@ -43,7 +50,11 @@ class _ContactPageState extends State<ContactPage> {
         builder: (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
           if (snapshot.data.isEmpty)
-            return Text("Görüntülecek veri bulunamadı.");
+            return Center(
+                child: Text(
+              "Görüntülecek veri bulunamadı.",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            ));
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
